@@ -56,10 +56,8 @@ export default function Header() {
                 <Link href="/protected/add-member">メンバー追加</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <form action={signOutAction} method="post">
-                  <button type="submit">ログアウト</button>
-                </form>
+              <DropdownMenuItem onClick={async () => await signOutAction()}>
+                ログアウト
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
