@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex items-center justify-center p-4">
+        <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex justify-center p-4">
           {children}
         </main>
       </body>
