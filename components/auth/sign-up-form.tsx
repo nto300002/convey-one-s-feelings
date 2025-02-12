@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export const SignUpForm = () => {
   return (
-    <div>
+    <div className="space-y-6 items-center">
       <Button variant="outline" className="w-full mb-6" type="button">
         <Icons.google className="mr-2 h-4 w-4" />
         Googleで続ける
