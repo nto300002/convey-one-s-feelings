@@ -8,14 +8,14 @@ export default async function Signup(props: {
   const searchParams = await props.searchParams;
   if ('message' in searchParams) {
     return (
-      <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+      <div className="w-full flex-1 flex items-center h-screen sm:max-w-md items-center justify-center gap-2 p-4">
         <FormMessage message={searchParams} />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-20 items-center">
       <SignUpForm />
       <FormMessage message={searchParams} />
     </div>
