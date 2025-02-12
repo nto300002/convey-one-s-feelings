@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { BellIcon, UserCircle, ChevronDownIcon } from 'lucide-react';
+import { signOutAction } from '@/app/actions';
 
 export default function Header() {
   return (
@@ -52,8 +53,11 @@ export default function Header() {
                 <Link href="/protected/add-member">メンバー追加</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>ログアウト</DropdownMenuItem>
-              <DropdownMenuItem>tinge</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <form action={signOutAction} method="post">
+                  <button type="submit">ログアウト</button>
+                </form>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
