@@ -12,14 +12,6 @@ export function AddMemberForm() {
   const [link, setLink] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  // テスト用に常にトーストを表示させる
-  const { toast } = useToast();
-
-  toast({
-    title: 'title',
-    description: 'description',
-  });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
