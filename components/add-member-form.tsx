@@ -5,20 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { useToast } from '@/components/ui/use-toast';
 
 export function AddMemberForm() {
   const [id, setId] = useState('');
   const [link, setLink] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-
-  // テスト用に常にトーストを表示させる
-  const { toast } = useToast();
-
-  toast({
-    title: 'title',
-    description: 'description',
-  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
