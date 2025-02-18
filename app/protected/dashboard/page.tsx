@@ -1,5 +1,5 @@
 import ChatList from '@/components/chat-list';
-import StatusUpdateForm from '@/components/status-update-form';
+import { StatusUpdateForm } from '@/components/status-update-form';
 import React from 'react';
 
 export default function ProtectedDashboardPage() {
