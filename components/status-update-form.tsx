@@ -37,7 +37,7 @@ const stamps = [
   { emoji: '🥱', name: 'ねむい' },
 ];
 
-export default function StatusUpdateForm() {
+export function StatusUpdateForm() {
   const [status, setStatus] = useState('1');
   const { statuses, loading: statusesLoading } = useUserStatuses();
   const [feeling, setFeeling] = useState('今の気持ちは？');

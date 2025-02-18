@@ -85,7 +85,9 @@ export default function Header() {
                   <DropdownMenuItem>
                     <Link href="/protected/members">メンバー一覧</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>プロフィール</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/protected/profile">プロフィール</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href="/protected/add-member">メンバー追加</Link>
                   </DropdownMenuItem>
