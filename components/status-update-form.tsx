@@ -26,16 +26,7 @@ import {
 import { createClient } from '@/utils/supabase/client';
 import { useUserStatuses } from '@/hooks/useUserStatuses';
 import { toast } from '@/components/ui/use-toast';
-
-const stamps = [
-  { emoji: '😊', name: 'たのしい' },
-  { emoji: '😂', name: 'おもしろい' },
-  { emoji: '😭', name: 'かなしい' },
-  { emoji: '🤔', name: 'かんがえちゅう' },
-  { emoji: '😡', name: 'イライラ' },
-  { emoji: '💦', name: 'つかれた' },
-  { emoji: '🥱', name: 'ねむい' },
-];
+import { VoiceInput } from '@/components/voice-input';
 
 export function StatusUpdateForm() {
   const [status, setStatus] = useState('1');
@@ -45,6 +36,7 @@ export function StatusUpdateForm() {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -222,43 +214,11 @@ export function StatusUpdateForm() {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">音声入力(テスト中)</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm" className="w-full">
-                    {selectedStamp ? (
-                      <span className="text-2xl">{selectedStamp}</span>
-                    ) : (
-                      '今の気持ちを例えるなら...'
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64">
-                  <div className="grid grid-cols-3 gap-2">
-                    {stamps.map((stamp) => (
-                      <Button
-                        key={stamp.emoji}
-                        variant="ghost"
-                        className="text-2xl"
-                        onClick={() => {
-                          setSelectedStamp(stamp.emoji);
-                          setFeeling(`${stamp.name}`);
-                          const popoverTrigger = document.querySelector(
-                            '[data-state="open"]'
-                          );
-                          if (popoverTrigger) {
-                            (popoverTrigger as HTMLButtonElement).click();
-                          }
-                        }}
-                      >
-                        {stamp.emoji}
-                      </Button>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+            <VoiceInput
+              onResult={(text) => setFeeling(text)}
+              isListening={isListening}
+              setIsListening={setIsListening}
+            />
 
             <div className="space-y-2">
               <label className="text-sm font-medium">気持ち</label>
@@ -266,9 +226,7 @@ export function StatusUpdateForm() {
                 placeholder="今の気持ち"
                 className="min-h-[100px]"
                 value={feeling}
-                onChange={(e) => {
-                  setFeeling(e.target.value);
-                }}
+                onChange={(e) => setFeeling(e.target.value)}
               />
             </div>
 
