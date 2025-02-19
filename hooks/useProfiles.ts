@@ -13,29 +13,28 @@ export function useProfiles() {
     const fetchProfiles = async () => {
       try {
         const supabase = createClient();
-
-        // 現在のログインユーザーを取得
         const {
           data: { session },
         } = await supabase.auth.getSession();
         const currentUserId = session?.user?.id;
 
         const { data, error } = await supabase.from('profiles').select(`
-            id,
-            username,
-            created_at,
-            updated_at
-          `);
+          id,
+          username,
+          created_at,
+          updated_at,
+          profilestatus!left ( id:profile_id, status_id, userstatus ( name, hiragana ) )
+        `);
 
         if (error) throw error;
 
-        // 現在のユーザーを除外してマッピング
         const usersWithStatus = data
           .filter((profile) => profile.id !== currentUserId)
-          .map((profile, index) => ({
+          .map((profile) => ({
             id: profile.id,
             profile: profile,
-            status: ['たて込み中', '仕事中', '対応可能'][index % 3],
+            status:
+              (profile.profilestatus as any)?.userstatus?.name || '対応可能',
           }));
 
         setUsers(usersWithStatus);
