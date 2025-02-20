@@ -1,6 +1,6 @@
 'use server';
 
-import { encodedRedirect } from '@/utils/utils';
+import { flashRedirect, encodedRedirect } from '@/utils/utils';
 import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -12,33 +12,49 @@ export const signUpAction = async (formData: FormData) => {
   const supabase = await createClient();
   const origin = (await headers()).get('origin');
 
-  if (!email || !password) {
-    return encodedRedirect(
+  if (!email || !password || !name) {
+    return flashRedirect(
       'error',
       '/sign-up',
-      'Email and password are required'
+      'Name, email and password are required'
     );
   }
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-      data: {
-        name: name || '',
+  try {
+    // ユーザー登録
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${origin}/auth/callback`,
+        data: {
+          name: name,
+        },
       },
-    },
-  });
+    });
 
-  if (error) {
-    console.error(error.code + ' ' + error.message);
-    return encodedRedirect('error', '/sign-up', error.message);
-  } else {
-    return encodedRedirect(
+    if (authError) throw authError;
+
+    // プロフィール作成
+    if (authData.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({ id: authData.user.id, username: name });
+
+      if (profileError) throw profileError;
+    }
+
+    return flashRedirect(
       'success',
-      '/sign-up',
-      'ご登録ありがとうございます! 登録したアドレスにメールを送信しましたので、記載されたリンクをチェックしてアカウントを有効化してください'
+      `${origin}/sign-up`,
+      'ご利用いただきありがとうございます！ 登録ボタンを押すと登録したアドレスにメールが送信されますので、記載されたリンクにアクセスしてください'
+    );
+  } catch (error) {
+    console.error(error);
+    return flashRedirect(
+      'error',
+      `${origin}/sign-up`,
+      error instanceof Error ? error.message : '登録に失敗しました'
     );
   }
 };
