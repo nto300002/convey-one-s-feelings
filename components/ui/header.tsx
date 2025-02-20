@@ -106,10 +106,10 @@ export default function Header() {
           ) : (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/auth/sign-in">ログイン</Link>
+                <Link href="/sign-in">ログイン</Link>
               </Button>
               <Button variant="ghost" asChild>
-                <Link href="/auth/sign-up">サインアップ</Link>
+                <Link href="/sign-up">サインアップ</Link>
               </Button>
             </>
           )}
