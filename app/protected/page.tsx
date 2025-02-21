@@ -22,7 +22,7 @@ export default async function ProtectedPage() {
     .single();
 
   return (
-    <div className="flex-1 w-full flex flex-col items-center p-4 space-y-8">
+    <div className="flex-1 mt-24 mb-24 w-full flex flex-col items-center p-4 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-2xl font-bold">ようこそ {profile?.username}さん</h1>
         <h2 className="text-xl">convey-one&apos;s-feelingsへ</h2>

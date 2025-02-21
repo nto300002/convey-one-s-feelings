@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/ui/header';
-import { ToastProvider, ToastViewport } from '@/components/ui/toast';
+import { ToastProvider } from '@/components/ui/toast';
 import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/context/AuthContext';
+
 export const metadata: Metadata = {
   title: 'convey-one-s-feelings',
   description: '思いを伝えることに特化したチャットアプリ',
@@ -10,19 +12,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <ToastProvider>
-          <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex justify-center p-4">
+      <body className="bg-gradient-to-bl from-pink-100 to-white">
+        <AuthProvider>
+          <ToastProvider>
             <Toaster />
             {children}
-          </main>
-        </ToastProvider>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );

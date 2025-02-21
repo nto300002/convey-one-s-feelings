@@ -47,7 +47,7 @@ export const signUpAction = async (formData: FormData) => {
     return flashRedirect(
       'success',
       `${origin}/sign-up`,
-      'ご利用いただきありがとうございます！ 登録ボタンを押すと登録したアドレスにメールが送信されますので、記載されたリンクにアクセスしてください'
+      'ご利用いただきありがとうございます！ 登録ボタンを押すと登録したアドレスにメールが送信されますので、記載されたリンクてください'
     );
   } catch (error) {
     console.error(error);

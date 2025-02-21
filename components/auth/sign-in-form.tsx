@@ -49,7 +49,7 @@ export const SignInForm = () => {
           </SubmitButton>
         </div>
       </form>
-      <div className="px-5 py-3 mt-6 border rounded-md flex gap-4 w-[600px]">
+      <div className="px-5 py-3 mt-6 border-l-2 border-gray-400 flex gap-4 w-[600px]">
         アカウントをお持ちでない場合{' '}
         <Link
           href="/sign-up"
