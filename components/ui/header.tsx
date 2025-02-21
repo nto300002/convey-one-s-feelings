@@ -11,39 +11,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { BellIcon, UserCircle, ChevronDownIcon } from 'lucide-react';
 import { signOutAction } from '@/app/actions';
-import { useEffect, useState } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { useEffect } from 'react';
 
 export default function Header() {
-  const [session, setSession] = useState<Session | null>(null);
-  const supabase = createClient();
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
-    };
-    fetchSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-      }
-    );
-
-    router.refresh();
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
-  }, [supabase, router]);
+  const { session, username } = useAuth();
 
   return (
-    <header className="border-b bg-white">
+    <header className="shadow-md border-gray-500 mb-5 w-full mx-auto max-w-full">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href="/protected/dashboard"
@@ -74,7 +49,8 @@ export default function Header() {
                     variant="ghost"
                     className="flex items-center space-x-2"
                   >
-                    <span>Menu</span>
+                    <UserCircle className="h-6 w-6" />
+                    <span>{username}</span>
                     <ChevronDownIcon className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -92,16 +68,16 @@ export default function Header() {
                     <Link href="/protected/add-member">メンバー追加</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={async () => await signOutAction()}>
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      await signOutAction();
+                      window.location.href = '/sign-in';
+                    }}
+                  >
                     ログアウト
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              <Button variant="ghost" size="icon">
-                <UserCircle className="h-6 w-6" />
-                <span className="sr-only">プロフィール</span>
-              </Button>
             </>
           ) : (
             <>

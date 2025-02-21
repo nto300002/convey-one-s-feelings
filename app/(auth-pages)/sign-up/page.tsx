@@ -19,9 +19,11 @@ export default async function Signup() {
   }
 
   return (
-    <div className="space-y-6 mt-20 items-center">
-      <SignUpForm />
-      {flashMessage && <FormMessage message={flashMessage} />}
-    </div>
+    <main className="flex min-h-screen items-center justify-center">
+      <div className="w-full max-w-[600px] mx-auto px-4">
+        <SignUpForm />
+        {flashMessage && <FormMessage message={flashMessage} />}
+      </div>
+    </main>
   );
 }
