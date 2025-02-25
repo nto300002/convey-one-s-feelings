@@ -44,6 +44,14 @@ export default function ChatList() {
     return <div className="text-red-500">エラーが発生しました: {error}</div>;
   }
 
+  if (users.length === 0) {
+    return (
+      <div className="text-gray-500 text-center p-4">
+        メンバーが登録されていません
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2">
       {users.map((user) => (
@@ -51,22 +59,35 @@ export default function ChatList() {
           <Tooltip>
             <TooltipTrigger asChild>
               <div
-                className={`flex items-center space-x-4 bg-white p-4 rounded-lg shadow 
-                  ${user.status === '対応可能' ? 'hover:bg-gray-50 cursor-pointer' : 'opacity-75'}`}
-                onClick={() => handleUserClick(user.id, user.status || '')}
+                className={`flex items-center space-x-4 bg-white p-4 rounded-lg shadow cursor-pointer transition-colors ${
+                  user.status === '対応可能' ? 'hover:bg-gray-50' : 'opacity-50'
+                }`}
+                onClick={() =>
+                  handleUserClick(user.id, user.status ?? '対応可能')
+                }
               >
-                <UserCircle className="h-10 w-10 text-gray-400" />
+                <UserCircle className="h-10 w-10" />
                 <div>
-                  <p className="font-medium">{user.profile.username}</p>
-                  <p className="text-sm text-gray-500">{user.status}</p>
+                  <div className="font-medium">{user.profile.username}</div>
+                  <div
+                    className={`text-sm ${
+                      user.status === '対応可能'
+                        ? 'text-green-600'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    {user.status}
+                  </div>
                 </div>
               </div>
             </TooltipTrigger>
-            {user.status !== '対応可能' && (
-              <TooltipContent>
-                <p>ただいま、{user.status}です</p>
-              </TooltipContent>
-            )}
+            <TooltipContent>
+              <p>
+                {user.status === '対応可能'
+                  ? 'クリックしてチャットを開始'
+                  : `${user.status}のため、チャットを開始できません`}
+              </p>
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       ))}
